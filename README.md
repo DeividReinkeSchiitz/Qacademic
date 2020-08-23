@@ -1,2 +1,2 @@
 # Qacademic
-App to visualize data from Qacademic users
+App to view Qacademic users data
