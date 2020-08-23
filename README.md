@@ -3,12 +3,12 @@ App to view Qacademic users data
 
 ## API usage
 ### Local Machine:
-   git clone git@github.com:DeividReinkeSchiitz/Qacademic.git
-   cd server
-   yarn 
-   yarn dev
+git clone git@github.com:DeividReinkeSchiitz/Qacademic.git
+cd server
+yarn 
+yarn dev
 
-#### Web Api:
+### Web Api:
 
 ## Mobile App
 
