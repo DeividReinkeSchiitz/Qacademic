@@ -4,6 +4,9 @@ App to view Qacademic users data from http://academico.ifmt.edu.br/ by web scrap
 # Task lists
 - [ ] Finish Api
    - [x] Get Hish School Grades
+   - [ ] Allow to change password   
+   - [ ] Get class material
+   - [ ] get class schedule
    - [ ] Get College Grades
 - [ ] Finish Mobile App
 - [ ] Finish Web App
