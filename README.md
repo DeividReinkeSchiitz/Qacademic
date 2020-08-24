@@ -18,8 +18,15 @@ App to view Qacademic users data from http://academico.ifmt.edu.br/ by web scrap
   yarn dev;
  ```
 ### Web Api:  
-   Adress: `https://qacademicapi.herokuapp.com/students`.<br/>
-   *See more in server/example *
+  Adress: `https://qacademicapi.herokuapp.com/students`.<br/>
+   ```javascript
+    const response = await axios.post('https://qacademicapi.herokuapp.com/students', {
+      login: '<xxxx>',
+      password: '<xxxx>'
+    });
+    
+    console.log(response.data);
+   ```
 ## Mobile App
 
 ## Contributing
