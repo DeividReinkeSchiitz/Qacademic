@@ -22,7 +22,7 @@ class App {
    public startServer ():void {
      this.app.listen(process.env.PORT, () => {
        console.log('server Running');
-     });
+     }).setTimeout(120000);
    }
 
 /*    private databaseConnection ():void {
