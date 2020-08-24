@@ -3,6 +3,8 @@ App to view Qacademic users data.
 
 # Task lists
 - [ ] Finish Api
+   - [x] Get Hish School Grades
+   - [ ] Get College Grades
 - [ ] Finish Mobile App
 - [ ] Finish Web App
 
