@@ -54,12 +54,12 @@ class StudentController {
 
   public async getGradesByLoggin (req:Request, res:Response) {
     try {
-      const { password, login } = req.body;
+      /*       const { password, login } = req.body;
 
       const studentData = new StudentData();
       const response = await studentData.start(login, password);
-
-      return res.json(response);
+ */
+      return res.json({ grades: 120 });
     } catch (error) {
       throw new Error('student doesnt exist');
     }
