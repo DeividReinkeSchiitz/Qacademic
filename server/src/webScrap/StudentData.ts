@@ -2,21 +2,25 @@ import puppeteer, { Page } from 'puppeteer';
 
 class StudentData {
   public async start (login:string, password:string) {
-    const browser = await puppeteer.launch({ headless: true, ignoreHTTPSErrors: true });
-    const page = (await browser.pages())[0];
+    try {
+      const browser = await puppeteer.launch({ headless: true, ignoreHTTPSErrors: true, args: ['--no-sandbox'] });
+      const page = (await browser.pages())[0];
 
-    await this.openStudentLogginBrowser(page);
-    await this.loginForm(page, login, password);
+      await this.openStudentLogginBrowser(page);
+      await this.loginForm(page, login, password);
 
-    const wrongUser = await page.evaluate(() => document.querySelector('body > table > tbody > tr:nth-child(2) > td > table > tbody > tr > td > div > strong > font')?.innerHTML);
+      const wrongUser = await page.evaluate(() => document.querySelector('body > table > tbody > tr:nth-child(2) > td > table > tbody > tr > td > div > strong > font')?.innerHTML);
 
-    if (wrongUser != null) {
-      // wrong login
-      return null;
+      if (wrongUser != null) {
+        // wrong login
+        return null;
+      }
+
+      await this.openStudentGradesBrowser(page);
+      return await this.getUserData(page);
+    } catch (error) {
+      console.log('ScrapData error: ' + error);
     }
-
-    await this.openStudentGradesBrowser(page);
-    return await this.getUserData(page);
   }
 
   private async openStudentLogginBrowser (page:Page) {
