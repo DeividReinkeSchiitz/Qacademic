@@ -9,7 +9,6 @@ class StudentData {
     await this.loginForm(page, login, password);
 
     const wrongUser = await page.evaluate(() => document.querySelector('body > table > tbody > tr:nth-child(2) > td > table > tbody > tr > td > div > strong > font')?.innerHTML);
-    console.log(wrongUser);
 
     if (wrongUser != null) {
       // wrong login
