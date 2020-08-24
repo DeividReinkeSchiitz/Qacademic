@@ -58,7 +58,6 @@ class StudentController {
 
       const studentData = new StudentData();
       const response = await studentData.start(login, password);
-      console.log(response);
 
       return res.json(response);
     } catch (error) {

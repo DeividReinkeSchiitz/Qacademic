@@ -2,7 +2,6 @@ import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
-import mongoose from 'mongoose';
 import router from './router';
 
 class App {
@@ -17,7 +16,6 @@ class App {
      this.app.use(cors());
      this.app.use(helmet());
      this.app.use(express.json());
-     this.databaseConnection();
      this.app.use(router);
    }
 
@@ -27,7 +25,7 @@ class App {
      });
    }
 
-   private databaseConnection ():void {
+/*    private databaseConnection ():void {
      const urlConnection = `mongodb+srv://${process.env.DATABASE_USER}:${process.env.DATABASE_PASSWORD}@cluster0.jrvof.mongodb.net/qacademicDB?retryWrites=true&w=majority`;
      mongoose.connect(
        urlConnection,
@@ -37,7 +35,7 @@ class App {
          console.log('connected with mongodb');
        }
      );
-   }
+   } */
 }
 
 const startServer = ():void => new App().startServer();
