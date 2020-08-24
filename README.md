@@ -1,5 +1,5 @@
 # Qacademic
-App to view Qacademic users data.
+App to view Qacademic users data from http://academico.ifmt.edu.br/ by web scraping.
 
 # Task lists
 - [ ] Finish Api
