@@ -15,8 +15,9 @@ App to view Qacademic users data.
   yarn;
   yarn dev;
  ```
-### Web Api:
-
+### Web Api:  
+   Adress: `https://qacademicapi.herokuapp.com/students`.<br/>
+ 
 ## Mobile App
 
 ## Contributing
