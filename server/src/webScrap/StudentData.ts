@@ -3,7 +3,7 @@ import puppeteer, { Page } from 'puppeteer';
 class StudentData {
   public async start (login:string, password:string) {
     try {
-      const browser = await puppeteer.launch({ headless: true, ignoreHTTPSErrors: true, args: ['--no-sandbox', '--disable-setuid-sandbox'] });
+      const browser = await puppeteer.launch({ headless: true, ignoreHTTPSErrors: true, args: ['--no-sandbox'] });
       const page = (await browser.pages())[0];
 
       await this.openStudentLogginBrowser(page);
