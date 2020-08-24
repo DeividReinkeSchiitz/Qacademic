@@ -19,7 +19,7 @@ App to view Qacademic users data from http://academico.ifmt.edu.br/ by web scrap
  ```
 ### Web Api:  
    Adress: `https://qacademicapi.herokuapp.com/students`.<br/>
- 
+   *See more in server/example *
 ## Mobile App
 
 ## Contributing
