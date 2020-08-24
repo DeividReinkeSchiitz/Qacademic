@@ -9,7 +9,8 @@
     "express": "^4.17.1",
     "helmet": "^4.0.0",
     "mongoose": "^5.10.0",
-    "puppeteer": "^5.2.1"
+    "puppeteer": "^5.2.1",
+    "ts-node": "^9.0.0"
   },
   "scripts": {
     "dev": "nodemon --watch src/**/*.ts  --exec ts-node src/index.ts",
@@ -35,7 +36,6 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
     "nodemon": "^2.0.4",
-    "ts-node": "^9.0.0",
     "typescript": "^3.9.7"
   },
   "engines": {
