@@ -6,6 +6,6 @@ import axios from 'axios';
       password: '<xxxx>'
     });
 
-    console.log(response.data); console.log(response.data);
+    console.log(response.data);
   }
 )();
