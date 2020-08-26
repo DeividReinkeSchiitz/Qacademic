@@ -23,6 +23,8 @@ module.exports = {
     // we use 2 spaces to indent our code
     indent: ['error', 2],
     // we want to avoid useless spaces
-    'no-multi-spaces': ['error']
+    'no-multi-spaces': ['error'],
+
+    'no-new': 0
   }
 };
