@@ -5,7 +5,7 @@ App to view Qacademic users data from http://academico.ifmt.edu.br/ by web scrap
 - [ ] Finish Api
    - [x] Get Hish School Grades
    - [ ] Allow to change password   
-   - [ ] Get class material
+   - [x] Get class material
    - [ ] Get class schedule
    - [ ] Get College Grades
 - [ ] Finish Mobile App
@@ -21,9 +21,9 @@ App to view Qacademic users data from http://academico.ifmt.edu.br/ by web scrap
   yarn dev;
  ```
 ### Web Api:  
-  Adress: `https://qacademicapi.herokuapp.com/students`.<br/>
+  Adress: `https://qacademic-api.herokuapp.com`.<br/>
    ```javascript
-    const response = await axios.post('https://qacademicapi.herokuapp.com/students', {
+    const response = await axios.post('https://qacademic-api.herokuapp.com/students', {
       login: '<xxxx>',
       password: '<xxxx>'
     });
