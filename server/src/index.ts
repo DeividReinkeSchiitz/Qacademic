@@ -1,3 +1,4 @@
+import { Browser } from 'puppeteer';
 import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
@@ -20,7 +21,7 @@ class App {
    }
 
    public startServer ():void {
-     this.app.listen(process.env.PORT || 2121, () => {
+     this.app.listen(process.env.PORT, () => {
        console.log('server Running in port: ' + process.env.PORT);
      }).setTimeout(120000);
    }

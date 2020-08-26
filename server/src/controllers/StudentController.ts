@@ -7,7 +7,7 @@ class StudentController {
       let response;
       const { password, login } = req.body;
 
-      const browser = await puppeteer.launch({ headless: true, ignoreHTTPSErrors: true, args: ['--no-sandbox', '--disable-setuid-sandbox'] });
+      const browser = await puppeteer.launch({ headless: false, ignoreHTTPSErrors: true, args: ['--no-sandbox', '--disable-setuid-sandbox'] });
       const student = new Student(browser);
 
       response = await student.login(login, password);

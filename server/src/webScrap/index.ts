@@ -13,8 +13,9 @@ class Student {
    }
 
    async getPage ():Promise<Page> {
-     const pageValue = await this.browser.newPage();
-     return pageValue;
+     const pageValue = await this.browser.pages();
+     await pageValue[0].setDefaultNavigationTimeout(120000);
+     return pageValue[0];
    }
 
    async login (login:string, password:string):Promise<boolean| undefined> {
