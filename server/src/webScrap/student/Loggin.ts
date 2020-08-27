@@ -35,8 +35,9 @@ class StudentLoggin {
     await this.page.click(passwordSelector);
     await this.page.keyboard.type(this.password);
     await this.page.click(okSelector);
+    await this.page.click(okSelector);
 
-    await this.page.waitForNavigation();
+    await this.page.waitForNavigation({ waitUntil: 'load' });
   }
 
   private async wrongLogin () {
