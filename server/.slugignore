@@ -1,5 +1,6 @@
 yarn.lock
-/src
-example
-/dist/schemas
+*/src
+*/example
+*/dist/schemas/
 .eslintrc.js
+tsconfig.json

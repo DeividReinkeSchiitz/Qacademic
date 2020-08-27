@@ -2,3 +2,4 @@
 **/.env
 **/yarn-error.log
 server/dist
+server/.slugignore
