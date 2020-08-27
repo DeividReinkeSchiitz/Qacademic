@@ -46,19 +46,56 @@ var Student = /** @class */ (function () {
     function Student(browser) {
         this.browser = browser;
         this.page = this.getPage();
+        this.pageInterceptor();
     }
     Student.prototype.getPage = function () {
         return __awaiter(this, void 0, void 0, function () {
             var pageValue;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.browser.pages()];
+                    case 0: return [4 /*yield*/, this.browser.newPage()];
                     case 1:
                         pageValue = _a.sent();
-                        return [4 /*yield*/, pageValue[0].setDefaultNavigationTimeout(120000)];
+                        return [4 /*yield*/, pageValue.setDefaultNavigationTimeout(120000)];
                     case 2:
                         _a.sent();
-                        return [2 /*return*/, pageValue[0]];
+                        return [2 /*return*/, pageValue];
+                }
+            });
+        });
+    };
+    Student.prototype.closePage = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.page];
+                    case 1:
+                        (_a.sent()).close();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    Student.prototype.pageInterceptor = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.page];
+                    case 1:
+                        // turns request interceptor on
+                        (_a.sent()).setRequestInterception(true);
+                        return [4 /*yield*/, this.page];
+                    case 2:
+                        // if the page makes a  request to a resource type of image or stylesheet then abort that            request
+                        (_a.sent()).on('request', function (request) {
+                            if (request.resourceType() === 'image' || request.resourceType() === 'stylesheet') {
+                                request.abort();
+                            }
+                            else {
+                                request.continue();
+                            }
+                        });
+                        return [2 /*return*/];
                 }
             });
         });

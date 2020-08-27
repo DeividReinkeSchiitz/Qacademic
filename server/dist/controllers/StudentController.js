@@ -41,41 +41,46 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var index_1 = __importDefault(require("../webScrap/index"));
 var puppeteer_1 = __importDefault(require("puppeteer"));
+var browser = puppeteer_1.default.launch({ headless: true, ignoreHTTPSErrors: true, args: ['--no-sandbox'] });
 var StudentController = /** @class */ (function () {
     function StudentController() {
     }
     StudentController.prototype.getData = function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, _a, password, login, browser, student, error_1;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
+            var response, _a, password, login, student, _b, error_1;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
                     case 0:
-                        _b.trys.push([0, 6, , 7]);
+                        _c.trys.push([0, 6, , 9]);
                         response = void 0;
                         _a = req.body, password = _a.password, login = _a.login;
-                        return [4 /*yield*/, puppeteer_1.default.launch({ headless: true, ignoreHTTPSErrors: true, args: ['--no-sandbox', '--disable-setuid-sandbox'] })];
+                        _b = index_1.default.bind;
+                        return [4 /*yield*/, browser];
                     case 1:
-                        browser = _b.sent();
-                        student = new index_1.default(browser);
+                        student = new (_b.apply(index_1.default, [void 0, (_c.sent())]))();
                         return [4 /*yield*/, student.login(login, password)];
                     case 2:
-                        response = _b.sent();
+                        response = _c.sent();
                         if (!response) return [3 /*break*/, 4];
                         return [4 /*yield*/, student.data()];
                     case 3:
-                        response = _b.sent();
-                        _b.label = 4;
+                        response = _c.sent();
+                        _c.label = 4;
                     case 4:
                         res.json(response);
-                        return [4 /*yield*/, browser.close()];
+                        return [4 /*yield*/, student.closePage()];
                     case 5:
-                        _b.sent();
-                        return [2 /*return*/];
+                        _c.sent();
+                        return [3 /*break*/, 9];
                     case 6:
-                        error_1 = _b.sent();
+                        error_1 = _c.sent();
                         console.error(error_1.message);
-                        return [3 /*break*/, 7];
-                    case 7: return [2 /*return*/];
+                        return [4 /*yield*/, browser];
+                    case 7: return [4 /*yield*/, (_c.sent()).close()];
+                    case 8:
+                        _c.sent();
+                        return [3 /*break*/, 9];
+                    case 9: return [2 /*return*/];
                 }
             });
         });

@@ -102,8 +102,11 @@ var StudentLoggin = /** @class */ (function () {
                         return [4 /*yield*/, this.page.click(okSelector)];
                     case 5:
                         _a.sent();
-                        return [4 /*yield*/, this.page.waitForNavigation()];
+                        return [4 /*yield*/, this.page.click(okSelector)];
                     case 6:
+                        _a.sent();
+                        return [4 /*yield*/, this.page.waitForNavigation({ waitUntil: 'load' })];
+                    case 7:
                         _a.sent();
                         return [2 /*return*/];
                 }
