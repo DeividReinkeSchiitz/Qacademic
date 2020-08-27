@@ -1,4 +1,4 @@
-import { Schema, model, Document } from 'mongoose';
+/* import { Schema, model, Document } from 'mongoose';
 
 interface StudentInterface extends Document{
   login: string,
@@ -16,3 +16,4 @@ const StudentSchema = new Schema({
 });
 
 export default model<StudentInterface>('Student', StudentSchema);
+ */
