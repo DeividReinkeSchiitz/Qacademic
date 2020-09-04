@@ -103,6 +103,7 @@ var ClassMaterial = /** @class */ (function () {
                     case 1:
                         _a.sent();
                         return [4 /*yield*/, this.page.evaluate(function () {
+                                var tableElement = 'body > table > tbody > tr:nth-child(2) > td > table > tbody > tr:nth-child(2) > td:nth-child(2) > table:nth-child(4) > tbody > tr';
                                 var rows = Array.from(document.querySelectorAll(tableElement));
                                 // remove unecessary row
                                 rows.shift();

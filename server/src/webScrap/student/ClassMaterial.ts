@@ -34,6 +34,7 @@ class ClassMaterial {
 
     // return data in a array as: data[<row>][<columns>]
     const data = await this.page.evaluate(() => {
+      const tableElement = 'body > table > tbody > tr:nth-child(2) > td > table > tbody > tr:nth-child(2) > td:nth-child(2) > table:nth-child(4) > tbody > tr';
       const rows = Array.from(document.querySelectorAll(tableElement));
 
       // remove unecessary row
