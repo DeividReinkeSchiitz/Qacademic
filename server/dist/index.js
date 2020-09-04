@@ -22,7 +22,7 @@ var App = /** @class */ (function () {
     App.prototype.startServer = function () {
         this.app.listen(process.env.PORT, function () {
             console.log('server Running in port: ' + process.env.PORT);
-        }).setTimeout(120000);
+        }).setTimeout(30000);
     };
     return App;
 }());

@@ -39,7 +39,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var ClassMaterial = /** @class */ (function () {
     function ClassMaterial(page) {
         this.page = page;
-        this.years = [];
     }
     ClassMaterial.prototype.start = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -64,9 +63,12 @@ var ClassMaterial = /** @class */ (function () {
     };
     ClassMaterial.prototype.openClassMaterialBrowser = function () {
         return __awaiter(this, void 0, void 0, function () {
+            var url;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.page.goto('https://academico.ifmt.edu.br/qacademico/index.asp?t=2061', { waitUntil: 'domcontentloaded' })];
+                    case 0:
+                        url = 'https://academico.ifmt.edu.br/qacademico/index.asp?t=2061';
+                        return [4 /*yield*/, this.page.goto(url, { waitUntil: 'domcontentloaded' })];
                     case 1:
                         _a.sent();
                         return [2 /*return*/];
@@ -76,28 +78,40 @@ var ClassMaterial = /** @class */ (function () {
     };
     ClassMaterial.prototype.getYearsOptions = function () {
         return __awaiter(this, void 0, void 0, function () {
+            var optionsElement;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.page.$$eval('#ANO_PERIODO > option', function (options) { return options.map(function (option) { return option.textContent; }); })];
-                    case 1: return [2 /*return*/, _a.sent()];
+                    case 0:
+                        optionsElement = '#ANO_PERIODO > option';
+                        return [4 /*yield*/, this.page.waitForSelector(optionsElement)];
+                    case 1:
+                        _a.sent();
+                        return [4 /*yield*/, this.page.$$eval(optionsElement, function (options) { return options.map(function (option) { return option.textContent; }); })];
+                    case 2: return [2 /*return*/, _a.sent()];
                 }
             });
         });
     };
     ClassMaterial.prototype.createTwoDimensionalArrayFromTable = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var data;
+            var tableElement, data;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.page.evaluate(function () {
-                            var rows = Array.from(document.querySelectorAll('body > table > tbody > tr:nth-child(2) > td > table > tbody > tr:nth-child(2) > td:nth-child(2) > table:nth-child(4) > tbody > tr'));
-                            rows.shift();
-                            return rows.map(function (row) {
-                                var columns = row.querySelectorAll('td');
-                                return Array.from(columns, function (column) { var _a; return (_a = column) === null || _a === void 0 ? void 0 : _a.innerText; });
-                            });
-                        })];
+                    case 0:
+                        tableElement = 'body > table > tbody > tr:nth-child(2) > td > table > tbody > tr:nth-child(2) > td:nth-child(2) > table:nth-child(4) > tbody > tr';
+                        return [4 /*yield*/, this.page.waitForSelector(tableElement)];
                     case 1:
+                        _a.sent();
+                        return [4 /*yield*/, this.page.evaluate(function () {
+                                var rows = Array.from(document.querySelectorAll(tableElement));
+                                // remove unecessary row
+                                rows.shift();
+                                return rows.map(function (row) {
+                                    var columns = row.querySelectorAll('td');
+                                    return Array.from(columns, function (column) { var _a; return (_a = column) === null || _a === void 0 ? void 0 : _a.innerText; });
+                                });
+                            })];
+                    case 2:
                         data = _a.sent();
                         return [2 /*return*/, data];
                 }
@@ -107,7 +121,7 @@ var ClassMaterial = /** @class */ (function () {
     ClassMaterial.prototype.getUserData = function () {
         var _a, _b, _c, _d;
         return __awaiter(this, void 0, void 0, function () {
-            var classMaterials, years, index, year, yearTreated, tableData, classNameTreated, indexRow, row, className, firstCaracter, secondCaracter, thirtyCaracter, newYear, publicationData, obs, material, newYear;
+            var classMaterials, years, index, year, yearTreated, tableData, classNameTreated, indexRow, row, className, newYear, publicationData, obs, material, newYear;
             return __generator(this, function (_e) {
                 switch (_e.label) {
                     case 0:
@@ -115,6 +129,7 @@ var ClassMaterial = /** @class */ (function () {
                         return [4 /*yield*/, this.getYearsOptions()];
                     case 1:
                         years = _e.sent();
+                        // remove the first year if it doesnt have nothing
                         if (years[0] === '') {
                             years.shift();
                         }
@@ -142,12 +157,7 @@ var ClassMaterial = /** @class */ (function () {
                         row = tableData[indexRow];
                         if (!(row[0].length === 1)) return [3 /*break*/, 7];
                         className = row[1];
-                        firstCaracter = className.indexOf('-');
-                        secondCaracter = className.indexOf('-', firstCaracter + 1);
-                        thirtyCaracter = className.indexOf('-', secondCaracter + 1);
-                        classNameTreated = className.slice(secondCaracter, thirtyCaracter);
-                        classNameTreated = classNameTreated.replace(/-/gi, '');
-                        classNameTreated = classNameTreated.trim();
+                        classNameTreated = this.treatingClassName(className);
                         newYear = (_c = yearTreated) === null || _c === void 0 ? void 0 : _c.replace('_', '/');
                         classMaterials["" + newYear]["" + classNameTreated] = [];
                         return [3 /*break*/, 9];
@@ -181,53 +191,41 @@ var ClassMaterial = /** @class */ (function () {
     };
     ClassMaterial.prototype.navigate = function (year) {
         return __awaiter(this, void 0, void 0, function () {
+            var selectElement, buttonElement;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.page.select('select[name="ANO_PERIODO"]', year || '')];
+                    case 0:
+                        selectElement = 'select[name="ANO_PERIODO"]';
+                        buttonElement = 'body > table > tbody > tr:nth-child(2) > td > table > tbody > tr:nth-child(2) > td:nth-child(2) > div:nth-child(3) > form > input';
+                        return [4 /*yield*/, this.page.waitForSelector(selectElement)];
                     case 1:
                         _a.sent();
-                        return [4 /*yield*/, this.page.click('body > table > tbody > tr:nth-child(2) > td > table > tbody > tr:nth-child(2) > td:nth-child(2) > div:nth-child(3) > form > input')];
+                        return [4 /*yield*/, this.page.waitForSelector(buttonElement)];
                     case 2:
                         _a.sent();
-                        return [4 /*yield*/, this.page.waitForNavigation()];
+                        return [4 /*yield*/, this.page.select(selectElement, year || '')];
                     case 3:
+                        _a.sent();
+                        return [4 /*yield*/, this.page.click(buttonElement)];
+                    case 4:
+                        _a.sent();
+                        return [4 /*yield*/, this.page.waitForNavigation()];
+                    case 5:
                         _a.sent();
                         return [2 /*return*/];
                 }
             });
         });
     };
+    ClassMaterial.prototype.treatingClassName = function (className) {
+        var firstCaracter = className.indexOf('-');
+        var secondCaracter = className.indexOf('-', firstCaracter + 1);
+        var thirtyCaracter = className.indexOf('-', secondCaracter + 1);
+        var classNameTreated = className.slice(secondCaracter, thirtyCaracter);
+        classNameTreated = classNameTreated.replace(/-/gi, '');
+        classNameTreated = classNameTreated.trim();
+        return classNameTreated;
+    };
     return ClassMaterial;
 }());
-/*
-   {
-     grades:{
-      "2018":{
-         [...]
-      }
-      "2019":{
-         [...]
-     },
-     classMaterial:{
-      "2018":{
-         "filosofia":[
-            {
-               publication_data:19/06/2020,
-               material:"https://academico.ifmt.edu.br/uploads/MATERIAIS_AULAS/125199-AutoAvaliacao_1_BIMESTRE.pdf"
-               obs:"balbalabl"
-            },
-            {
-              publication_data:19/06/2020,
-               obs:"balbalabl",
-               material:"https://academico.ifmt.edu.br/uploads/MATERIAIS_AULAS/125199-AutoAvaliacao_1_BIMESTRE.pdf"
-
-            }
-         ]
-      },
-      "2019":{
-
-      }
-     }
-   }
-} */
 exports.default = ClassMaterial;

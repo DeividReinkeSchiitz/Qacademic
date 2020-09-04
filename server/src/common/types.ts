@@ -11,7 +11,7 @@ interface classNameMaterialI{
 }
 
 export interface classMaterialsI{
-   [year:string]:classNameI
+   [year:string]:classNameMaterialI
 }
 
 // Grades type
