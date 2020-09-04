@@ -57,7 +57,7 @@ var StudentController = /** @class */ (function () {
             concurrency: puppeteer_cluster_1.Cluster.CONCURRENCY_CONTEXT,
             maxConcurrency: 10,
             puppeteerOptions: puppeteerOptions,
-            monitor: true
+            monitor: false
         });
         this.listenErrors();
         this.createTask();

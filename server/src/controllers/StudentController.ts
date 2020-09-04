@@ -21,7 +21,7 @@ class StudentController {
        concurrency: Cluster.CONCURRENCY_CONTEXT,
        maxConcurrency: 10,
        puppeteerOptions,
-       monitor: true
+       monitor: false
      });
      this.listenErrors();
      this.createTask();
