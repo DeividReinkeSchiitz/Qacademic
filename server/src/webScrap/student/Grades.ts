@@ -1,16 +1,5 @@
 import { Page } from 'puppeteer';
-
-interface twoMonthI {
-   'grade': number,
-   'concept': number,
-   'missedClasses':number
-}
-interface classNameI {
- [className:string]:Array<twoMonthI>
-}
-interface userDataI {
- [year:string]:classNameI
-}
+import { userDataI } from '../../common/types';
 
 class StudentData {
    private page:Page;
@@ -56,7 +45,7 @@ class StudentData {
      return data;
    }
 
-   private async getUserData () {
+   private async getUserData ():Promise<userDataI> {
      const userData:userDataI = {};
 
      for (let index = 0; index < this.years.length; index++) {

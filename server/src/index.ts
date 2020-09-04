@@ -22,7 +22,7 @@ class App {
    public startServer ():void {
      this.app.listen(process.env.PORT, () => {
        console.log('server Running in port: ' + process.env.PORT);
-     }).setTimeout(120000);
+     }).setTimeout(30000);
    }
 }
 
