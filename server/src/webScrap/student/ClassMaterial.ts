@@ -1,159 +1,135 @@
 import { Page } from 'puppeteer';
-
-interface materialValueI {
-   publicationData:string
-   material:string
-   obs:string
-}
-
-interface classNameI{
-   [className:string]:Array<materialValueI>
-}
-
-interface classMaterialsI{
-   [year:string]:classNameI
-}
-
+import { classMaterialsI } from '../../common/types';
 class ClassMaterial {
   private page:Page;
-   private years:Array<string>;
-   constructor (page:Page) {
-     this.page = page;
-     this.years = [];
-   }
 
-   public async start ():Promise<classMaterialsI | undefined> {
-     try {
-       await this.openClassMaterialBrowser();
-       return await this.getUserData();
-     } catch (error) {
-       console.error(error);
-     }
-   }
+  constructor (page:Page) {
+    this.page = page;
+  }
 
-   private async openClassMaterialBrowser () {
-     await this.page.goto('https://academico.ifmt.edu.br/qacademico/index.asp?t=2061', { waitUntil: 'domcontentloaded' });
-   }
+  public async start ():Promise<classMaterialsI | undefined> {
+    try {
+      await this.openClassMaterialBrowser();
+      return await this.getUserData();
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
-   private async getYearsOptions () {
-     return await this.page.$$eval('#ANO_PERIODO > option', options => options.map(option => option.textContent));
-   }
+  private async openClassMaterialBrowser () {
+    const url = 'https://academico.ifmt.edu.br/qacademico/index.asp?t=2061';
+    await this.page.goto(url, { waitUntil: 'domcontentloaded' });
+  }
 
-   private async createTwoDimensionalArrayFromTable () {
-     const data = await this.page.evaluate(() => {
-       const rows = Array.from(document.querySelectorAll('body > table > tbody > tr:nth-child(2) > td > table > tbody > tr:nth-child(2) > td:nth-child(2) > table:nth-child(4) > tbody > tr'));
+  private async getYearsOptions () {
+    const optionsElement = '#ANO_PERIODO > option';
+    await this.page.waitForSelector(optionsElement);
 
-       rows.shift();
+    return await this.page.$$eval(optionsElement, options => options.map(option => option.textContent));
+  }
 
-       return rows.map(row => {
-         const columns = row.querySelectorAll('td');
-         return Array.from(columns, column => column?.innerText);
-       });
-     });
+  private async createTwoDimensionalArrayFromTable () {
+    const tableElement = 'body > table > tbody > tr:nth-child(2) > td > table > tbody > tr:nth-child(2) > td:nth-child(2) > table:nth-child(4) > tbody > tr';
+    await this.page.waitForSelector(tableElement);
 
-     return data;
-   }
+    // return data in a array as: data[<row>][<columns>]
+    const data = await this.page.evaluate(() => {
+      const rows = Array.from(document.querySelectorAll(tableElement));
 
-   private async getUserData () {
-     const classMaterials:classMaterialsI = { };
+      // remove unecessary row
+      rows.shift();
 
-     const years = await this.getYearsOptions();
+      return rows.map(row => {
+        const columns = row.querySelectorAll('td');
+        return Array.from(columns, column => column?.innerText);
+      });
+    });
 
-     if (years[0] === '') {
-       years.shift();
-     }
+    return data;
+  }
 
-     for (let index = 0; index < years.length; index++) {
-       const year = years[index];
+  private async getUserData () {
+    const classMaterials:classMaterialsI = { };
 
-       let yearTreated = year?.replace(/ /ig, '');
+    const years = await this.getYearsOptions();
+    // remove the first year if it doesnt have nothing
+    if (years[0] === '') {
+      years.shift();
+    }
 
-       classMaterials[`${yearTreated}`] = {};
+    for (let index = 0; index < years.length; index++) {
+      const year = years[index];
 
-       yearTreated = yearTreated?.replace('/', '_');
+      let yearTreated = year?.replace(/ /ig, '');
 
-       if (index !== 0) {
-         await this.navigate(yearTreated);
-       }
+      classMaterials[`${yearTreated}`] = {};
 
-       const tableData = await this.createTwoDimensionalArrayFromTable();
-       let classNameTreated = '';
+      yearTreated = yearTreated?.replace('/', '_');
 
-       for (let indexRow = 0; indexRow < tableData.length; indexRow++) {
-         const row = tableData[indexRow];
-         if (row[0].length === 1) {
-           const className:string = row[1];
+      if (index !== 0) {
+        await this.navigate(yearTreated);
+      }
 
-           const firstCaracter = className.indexOf('-');
-           const secondCaracter = className.indexOf('-', firstCaracter + 1);
-           const thirtyCaracter = className.indexOf('-', secondCaracter + 1);
+      const tableData = await this.createTwoDimensionalArrayFromTable();
+      let classNameTreated = '';
 
-           classNameTreated = className.slice(secondCaracter, thirtyCaracter);
-           classNameTreated = classNameTreated.replace(/-/gi, '');
-           classNameTreated = classNameTreated.trim();
+      for (let indexRow = 0; indexRow < tableData.length; indexRow++) {
+        const row = tableData[indexRow];
 
-           const newYear = yearTreated?.replace('_', '/');
-           classMaterials[`${newYear}`][`${classNameTreated}`] = [];
-         } else {
-           const publicationData = row[0];
-           const obs = row[1].slice(row[1].indexOf('Observações:'), row[1].indexOf('</tr>')).replace('Observações: ', '') || '';
+        // the row refers about the class name
+        if (row[0].length === 1) {
+          const className:string = row[1];
+          classNameTreated = this.treatingClassName(className);
 
-           const material = await this.page.evaluate((indexRow) => {
-             const a:HTMLLinkElement | null = document.querySelector(`body > table > tbody > tr:nth-child(2) > td > table > tbody > tr:nth-child(2) > td:nth-child(2) > table:nth-child(4) > tbody > tr:nth-child(${indexRow + 2}) > td:nth-child(2) > a`);
-             return a?.href;
-           }, indexRow);
+          const newYear = yearTreated?.replace('_', '/');
+          classMaterials[`${newYear}`][`${classNameTreated}`] = [];
+        } else {
+          const publicationData = row[0];
+          const obs = row[1].slice(row[1].indexOf('Observações:'), row[1].indexOf('</tr>')).replace('Observações: ', '') || '';
 
-           const newYear = yearTreated?.replace('_', '/');
+          const material = await this.page.evaluate((indexRow) => {
+            const a:HTMLLinkElement | null = document.querySelector(`body > table > tbody > tr:nth-child(2) > td > table > tbody > tr:nth-child(2) > td:nth-child(2) > table:nth-child(4) > tbody > tr:nth-child(${indexRow + 2}) > td:nth-child(2) > a`);
+            return a?.href;
+          }, indexRow);
 
-           classMaterials[`${newYear}`][`${classNameTreated}`].push({
-             publicationData,
-             material: material || '',
-             obs
-           });
-         }
-       }
-     }
+          const newYear = yearTreated?.replace('_', '/');
 
-     return classMaterials;
-   }
+          classMaterials[`${newYear}`][`${classNameTreated}`].push({
+            publicationData,
+            material: material || '',
+            obs
+          });
+        }
+      }
+    }
 
-   private async navigate (year:string | undefined) {
-     await this.page.select('select[name="ANO_PERIODO"]', year || '');
-     await this.page.click('body > table > tbody > tr:nth-child(2) > td > table > tbody > tr:nth-child(2) > td:nth-child(2) > div:nth-child(3) > form > input');
-     await this.page.waitForNavigation();
-   }
+    return classMaterials;
+  }
+
+  private async navigate (year:string | undefined) {
+    const selectElement = 'select[name="ANO_PERIODO"]';
+    const buttonElement = 'body > table > tbody > tr:nth-child(2) > td > table > tbody > tr:nth-child(2) > td:nth-child(2) > div:nth-child(3) > form > input';
+
+    await this.page.waitForSelector(selectElement);
+    await this.page.waitForSelector(buttonElement);
+
+    await this.page.select(selectElement, year || '');
+    await this.page.click(buttonElement);
+
+    await this.page.waitForNavigation();
+  }
+
+  private treatingClassName (className:string) {
+    const firstCaracter = className.indexOf('-');
+    const secondCaracter = className.indexOf('-', firstCaracter + 1);
+    const thirtyCaracter = className.indexOf('-', secondCaracter + 1);
+
+    let classNameTreated = className.slice(secondCaracter, thirtyCaracter);
+    classNameTreated = classNameTreated.replace(/-/gi, '');
+    classNameTreated = classNameTreated.trim();
+
+    return classNameTreated;
+  }
 }
-
-/*
-   {
-     grades:{
-      "2018":{
-         [...]
-      }
-      "2019":{
-         [...]
-     },
-     classMaterial:{
-      "2018":{
-         "filosofia":[
-            {
-               publication_data:19/06/2020,
-               material:"https://academico.ifmt.edu.br/uploads/MATERIAIS_AULAS/125199-AutoAvaliacao_1_BIMESTRE.pdf"
-               obs:"balbalabl"
-            },
-            {
-              publication_data:19/06/2020,
-               obs:"balbalabl",
-               material:"https://academico.ifmt.edu.br/uploads/MATERIAIS_AULAS/125199-AutoAvaliacao_1_BIMESTRE.pdf"
-
-            }
-         ]
-      },
-      "2019":{
-
-      }
-     }
-   }
-} */
 
 export default ClassMaterial;
