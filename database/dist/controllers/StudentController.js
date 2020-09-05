@@ -112,23 +112,22 @@ var StudentController = /** @class */ (function () {
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
-                        _b.trys.push([0, 5, 6, 7]);
+                        _b.trys.push([0, 3, 4, 7]);
                         _a = req.body, password = _a.password, login = _a.login;
                         return [4 /*yield*/, this.cluster];
                     case 1: return [4 /*yield*/, (_b.sent()).execute({ password: password, login: login })];
                     case 2:
                         data = _b.sent();
-                        res.json(data);
-                        return [4 /*yield*/, this.cluster];
-                    case 3: return [4 /*yield*/, (_b.sent()).idle()];
-                    case 4:
-                        _b.sent();
-                        return [3 /*break*/, 7];
-                    case 5:
+                        return [2 /*return*/, res.json(data)];
+                    case 3:
                         error_1 = _b.sent();
                         console.error(error_1);
                         return [3 /*break*/, 7];
-                    case 6: return [7 /*endfinally*/];
+                    case 4: return [4 /*yield*/, this.cluster];
+                    case 5: return [4 /*yield*/, (_b.sent()).idle()];
+                    case 6:
+                        _b.sent();
+                        return [7 /*endfinally*/];
                     case 7: return [2 /*return*/];
                 }
             });
