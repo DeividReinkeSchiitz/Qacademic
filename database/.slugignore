@@ -3,3 +3,7 @@ src/
 example/
 dist/schemas/
 .eslintrc.js
+yarn-error.log
+tslint.json
+tsconfig.json
+.env
