@@ -12,7 +12,7 @@ class ClassMaterial {
       await this.openClassMaterialBrowser();
       return await this.getUserData();
     } catch (error) {
-      console.error(error);
+      console.error(`ERROR IN CLASS MATERIAL PAGE ${error}`);
     }
   }
 
@@ -34,6 +34,7 @@ class ClassMaterial {
 
     // return data in a array as: data[<row>][<columns>]
     const data = await this.page.evaluate(() => {
+      const tableElement = 'body > table > tbody > tr:nth-child(2) > td > table > tbody > tr:nth-child(2) > td:nth-child(2) > table:nth-child(4) > tbody > tr';
       const rows = Array.from(document.querySelectorAll(tableElement));
 
       // remove unecessary row
@@ -114,8 +115,11 @@ class ClassMaterial {
     await this.page.waitForSelector(buttonElement);
 
     await this.page.select(selectElement, year || '');
-    await this.page.click(buttonElement);
 
+    Promise.all([
+      this.page.click(buttonElement),
+      this.page.click(buttonElement)
+    ]);
     await this.page.waitForNavigation();
   }
 

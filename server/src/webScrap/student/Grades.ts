@@ -16,7 +16,7 @@ class StudentData {
        await this.getYearsOptions();
        return await this.getUserData();
      } catch (error) {
-       console.error('ScrapData error: ' + error);
+       console.error('ERROR IN GRADES PAGE' + error);
      }
    }
 

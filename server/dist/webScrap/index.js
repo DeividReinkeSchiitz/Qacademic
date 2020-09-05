@@ -43,106 +43,53 @@ var Loggin_1 = __importDefault(require("./student/Loggin"));
 var Grades_1 = __importDefault(require("./student/Grades"));
 var ClassMaterial_1 = __importDefault(require("./student/ClassMaterial"));
 var Student = /** @class */ (function () {
-    function Student(browser) {
-        this.browser = browser;
-        this.page = this.getPage();
+    function Student(page) {
+        this.page = page;
         this.pageInterceptor();
     }
-    Student.prototype.getPage = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var pageValue;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.browser.newPage()];
-                    case 1:
-                        pageValue = _a.sent();
-                        return [4 /*yield*/, pageValue.setDefaultNavigationTimeout(120000)];
-                    case 2:
-                        _a.sent();
-                        return [2 /*return*/, pageValue];
-                }
-            });
-        });
-    };
-    Student.prototype.closePage = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.page];
-                    case 1:
-                        (_a.sent()).close();
-                        return [2 /*return*/];
-                }
-            });
-        });
-    };
     Student.prototype.pageInterceptor = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.page];
-                    case 1:
-                        // turns request interceptor on
-                        (_a.sent()).setRequestInterception(true);
-                        return [4 /*yield*/, this.page];
-                    case 2:
-                        // if the page makes a  request to a resource type of image or stylesheet then abort that            request
-                        (_a.sent()).on('request', function (request) {
-                            if (request.resourceType() === 'image' || request.resourceType() === 'stylesheet') {
-                                request.abort();
-                            }
-                            else {
-                                request.continue();
-                            }
-                        });
-                        return [2 /*return*/];
-                }
+                // turns request interceptor on
+                this.page.setRequestInterception(true);
+                // if the page makes a  request to a resource type of image or stylesheet then abort that            request
+                this.page.on('request', function (request) {
+                    if (request.resourceType() === 'image' ||
+                        request.resourceType() === 'stylesheet') {
+                        request.abort();
+                    }
+                    else {
+                        request.continue();
+                    }
+                });
+                return [2 /*return*/];
             });
         });
     };
     Student.prototype.login = function (login, password) {
         return __awaiter(this, void 0, void 0, function () {
-            var userLogin, _a, _b;
-            return __generator(this, function (_c) {
-                switch (_c.label) {
-                    case 0:
-                        _a = Loggin_1.default.bind;
-                        _b = [void 0, login, password];
-                        return [4 /*yield*/, this.page];
-                    case 1:
-                        userLogin = new (_a.apply(Loggin_1.default, _b.concat([_c.sent()])))();
-                        return [2 /*return*/, userLogin.start()];
-                }
+            var userLogin;
+            return __generator(this, function (_a) {
+                userLogin = new Loggin_1.default(login, password, this.page);
+                return [2 /*return*/, userLogin.start()];
             });
         });
     };
     Student.prototype.grades = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var studentGrades, _a;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0:
-                        _a = Grades_1.default.bind;
-                        return [4 /*yield*/, this.page];
-                    case 1:
-                        studentGrades = new (_a.apply(Grades_1.default, [void 0, _b.sent()]))();
-                        return [2 /*return*/, studentGrades.start()];
-                }
+            var studentGrades;
+            return __generator(this, function (_a) {
+                studentGrades = new Grades_1.default(this.page);
+                return [2 /*return*/, studentGrades.start()];
             });
         });
     };
     Student.prototype.classMaterial = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var studentClassMaterial, _a;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0:
-                        _a = ClassMaterial_1.default.bind;
-                        return [4 /*yield*/, this.page];
-                    case 1:
-                        studentClassMaterial = new (_a.apply(ClassMaterial_1.default, [void 0, _b.sent()]))();
-                        return [2 /*return*/, studentClassMaterial.start()];
-                }
+            var studentClassMaterial;
+            return __generator(this, function (_a) {
+                studentClassMaterial = new ClassMaterial_1.default(this.page);
+                return [2 /*return*/, studentClassMaterial.start()];
             });
         });
     };
@@ -167,4 +114,15 @@ var Student = /** @class */ (function () {
     };
     return Student;
 }());
+// only for tests
+/* const browser = puppeteer.launch({ headless: false, ignoreHTTPSErrors: true, args: ['--no-sandbox'] });
+
+async function devTest (login:string, password:string) {
+  const student = new Student((await browser));
+
+  const response = await student.login(login, password).then(() => student.data()).catch(e => e);
+
+  console.log(response);
+}
+ */
 exports.default = Student;

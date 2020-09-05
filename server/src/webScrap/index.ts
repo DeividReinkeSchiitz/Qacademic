@@ -13,10 +13,6 @@ class Student {
      this.pageInterceptor();
    }
 
-   public async closePage (): Promise<void> {
-     await this.page.close();
-   }
-
    private async pageInterceptor () {
      // turns request interceptor on
      this.page.setRequestInterception(true);

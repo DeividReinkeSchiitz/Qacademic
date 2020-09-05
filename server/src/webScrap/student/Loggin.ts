@@ -17,7 +17,7 @@ class StudentLoggin {
       await this.loginForm();
       return await this.wrongLogin();
     } catch (error) {
-      console.error(error);
+      console.error(`ERROR IN LOGGIN PAGE: ${error}`);
     }
   }
 
