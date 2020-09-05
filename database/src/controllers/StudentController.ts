@@ -36,9 +36,13 @@ class StudentController {
    private async createTask () {
      await (await this.cluster).task(async ({ page, data: { password, login } }) => {
        const student = new Student(page);
-       await student.login(login, password);
+       const userLogged = await student.login(login, password);
 
-       return await student.data();
+       if (!userLogged) return false;
+
+       return student.data();
+
+       // user loggin doesnt exist
      });
    }
 
