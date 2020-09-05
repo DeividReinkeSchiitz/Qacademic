@@ -12,7 +12,7 @@ class ClassMaterial {
       await this.openClassMaterialBrowser();
       return await this.getUserData();
     } catch (error) {
-      console.error(error);
+      console.error(`ERROR IN CLASS MATERIAL PAGE,: ${error}`);
     }
   }
 
@@ -115,7 +115,11 @@ class ClassMaterial {
     await this.page.waitForSelector(buttonElement);
 
     await this.page.select(selectElement, year || '');
-    await this.page.click(buttonElement);
+
+    Promise.all([
+      this.page.click(buttonElement),
+      this.page.click(buttonElement)
+    ]);
 
     await this.page.waitForNavigation();
   }

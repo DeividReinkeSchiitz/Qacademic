@@ -55,14 +55,11 @@ class Student {
      return studentClassMaterial.start();
    }
 
-   public async data ():Promise<{classMaterial:classMaterialsI | undefined, grades:userDataI | undefined}> {
-     const grades = await this.grades();
-     const classMaterial = await this.classMaterial();
-
-     return {
-       classMaterial,
-       grades
-     };
+   public async data ():Promise<[userDataI|undefined, classMaterialsI|undefined]> {
+     return Promise.all([
+       this.grades(),
+       this.classMaterial()
+     ]);
    }
 }
 

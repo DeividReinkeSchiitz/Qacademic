@@ -54,7 +54,7 @@ var ClassMaterial = /** @class */ (function () {
                     case 2: return [2 /*return*/, _a.sent()];
                     case 3:
                         error_1 = _a.sent();
-                        console.error(error_1);
+                        console.error("ERROR IN CLASS MATERIAL PAGE,: " + error_1);
                         return [3 /*break*/, 4];
                     case 4: return [2 /*return*/];
                 }
@@ -207,11 +207,12 @@ var ClassMaterial = /** @class */ (function () {
                         return [4 /*yield*/, this.page.select(selectElement, year || '')];
                     case 3:
                         _a.sent();
-                        return [4 /*yield*/, this.page.click(buttonElement)];
-                    case 4:
-                        _a.sent();
+                        Promise.all([
+                            this.page.click(buttonElement),
+                            this.page.click(buttonElement)
+                        ]);
                         return [4 /*yield*/, this.page.waitForNavigation()];
-                    case 5:
+                    case 4:
                         _a.sent();
                         return [2 /*return*/];
                 }

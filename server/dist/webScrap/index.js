@@ -107,20 +107,11 @@ var Student = /** @class */ (function () {
     };
     Student.prototype.data = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var grades, classMaterial;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.grades()];
-                    case 1:
-                        grades = _a.sent();
-                        return [4 /*yield*/, this.classMaterial()];
-                    case 2:
-                        classMaterial = _a.sent();
-                        return [2 /*return*/, {
-                                classMaterial: classMaterial,
-                                grades: grades
-                            }];
-                }
+                return [2 /*return*/, Promise.all([
+                        this.grades(),
+                        this.classMaterial()
+                    ])];
             });
         });
     };

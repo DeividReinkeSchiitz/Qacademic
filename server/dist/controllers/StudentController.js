@@ -55,9 +55,9 @@ var StudentController = /** @class */ (function () {
     function StudentController() {
         this.cluster = puppeteer_cluster_1.Cluster.launch({
             concurrency: puppeteer_cluster_1.Cluster.CONCURRENCY_CONTEXT,
-            maxConcurrency: 10,
+            maxConcurrency: 3,
             puppeteerOptions: puppeteerOptions,
-            monitor: false
+            monitor: true
         });
         this.listenErrors();
         this.createTask();
@@ -85,7 +85,7 @@ var StudentController = /** @class */ (function () {
                     case 1: return [4 /*yield*/, (_a.sent()).task(function (_a) {
                             var page = _a.page, _b = _a.data, password = _b.password, login = _b.login;
                             return __awaiter(_this, void 0, void 0, function () {
-                                var student, data;
+                                var student;
                                 return __generator(this, function (_c) {
                                     switch (_c.label) {
                                         case 0:
@@ -94,9 +94,7 @@ var StudentController = /** @class */ (function () {
                                         case 1:
                                             _c.sent();
                                             return [4 /*yield*/, student.data()];
-                                        case 2:
-                                            data = _c.sent();
-                                            return [2 /*return*/, data];
+                                        case 2: return [2 /*return*/, _c.sent()];
                                     }
                                 });
                             });
@@ -114,23 +112,23 @@ var StudentController = /** @class */ (function () {
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
-                        _b.trys.push([0, 3, 4, 7]);
+                        _b.trys.push([0, 5, 6, 7]);
                         _a = req.body, password = _a.password, login = _a.login;
                         return [4 /*yield*/, this.cluster];
                     case 1: return [4 /*yield*/, (_b.sent()).execute({ password: password, login: login })];
                     case 2:
                         data = _b.sent();
                         res.json(data);
+                        return [4 /*yield*/, this.cluster];
+                    case 3: return [4 /*yield*/, (_b.sent()).idle()];
+                    case 4:
+                        _b.sent();
                         return [3 /*break*/, 7];
-                    case 3:
+                    case 5:
                         error_1 = _b.sent();
                         console.error(error_1);
                         return [3 /*break*/, 7];
-                    case 4: return [4 /*yield*/, this.cluster];
-                    case 5: return [4 /*yield*/, (_b.sent()).idle()];
-                    case 6:
-                        _b.sent();
-                        return [7 /*endfinally*/];
+                    case 6: return [7 /*endfinally*/];
                     case 7: return [2 /*return*/];
                 }
             });

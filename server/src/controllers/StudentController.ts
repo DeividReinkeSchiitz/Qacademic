@@ -13,15 +13,15 @@ const puppeteerOptions = {
   ]
 
 };
+
 class StudentController {
    cluster:Promise<Cluster<any, any>>
-
    public constructor () {
      this.cluster = Cluster.launch({
        concurrency: Cluster.CONCURRENCY_CONTEXT,
-       maxConcurrency: 10,
+       maxConcurrency: 3,
        puppeteerOptions,
-       monitor: false
+       monitor: true
      });
      this.listenErrors();
      this.createTask();
@@ -36,11 +36,9 @@ class StudentController {
    private async createTask () {
      await (await this.cluster).task(async ({ page, data: { password, login } }) => {
        const student = new Student(page);
-
        await student.login(login, password);
-       const data = await student.data();
 
-       return data;
+       return await student.data();
      });
    }
 
@@ -49,11 +47,13 @@ class StudentController {
        const { password, login } = req.body;
 
        const data = await (await this.cluster).execute({ password, login });
+
        res.json(data);
+
+       await (await this.cluster).idle();
      } catch (error) {
        console.error(error);
      } finally {
-       await (await this.cluster).idle();
      }
    }
 }
