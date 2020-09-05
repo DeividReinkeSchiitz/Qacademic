@@ -48,12 +48,11 @@ class StudentController {
 
        const data = await (await this.cluster).execute({ password, login });
 
-       res.json(data);
-
-       await (await this.cluster).idle();
+       return res.json(data);
      } catch (error) {
        console.error(error);
      } finally {
+       await (await this.cluster).idle();
      }
    }
 }
