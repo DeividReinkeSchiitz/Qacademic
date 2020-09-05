@@ -1,20 +1,31 @@
-// import libraries
-import * as functions from 'firebase-functions';
-import * as admin from 'firebase-admin';
+import 'dotenv/config';
 import express from 'express';
-import * as bodyParser from 'body-parser';
+import cors from 'cors';
+import helmet from 'helmet';
+import router from './router';
 
-// initialize firebase inorder to access its services
-admin.initializeApp(functions.config().firebase);
+class App {
+   private app:express.Application
 
-// initialize express server
-const app = express();
-const main = express();
+   public constructor () {
+     this.app = express();
+     this.middlewares();
+   }
 
-// add the path to receive request and set json as bodyParser to process the body
-main.use('/api/v1', app);
-main.use(bodyParser.json());
-main.use(bodyParser.urlencoded({ extended: false }));
+   private middlewares ():void {
+     this.app.use(cors());
+     this.app.use(helmet());
+     this.app.use(express.json());
+     this.app.use(router);
+   }
 
-// define google cloud function name
-export const webApi = functions.https.onRequest(main);
+   public startServer ():void {
+     this.app.listen(process.env.PORT, () => {
+       console.log('server Running in port: ' + process.env.PORT);
+     }).setTimeout(30000);
+   }
+}
+
+const startServer = ():void => new App().startServer();
+
+startServer();
