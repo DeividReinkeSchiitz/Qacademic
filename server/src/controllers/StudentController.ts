@@ -3,7 +3,7 @@ import Student from '../webScrap/index';
 import { Cluster } from 'puppeteer-cluster';
 
 const puppeteerOptions = {
-  headless: false,
+  headless: true,
   ignoreHTTPSErrors: true,
   args: [
     '--no-sandbox',
@@ -19,9 +19,9 @@ class StudentController {
    public constructor () {
      this.cluster = Cluster.launch({
        concurrency: Cluster.CONCURRENCY_CONTEXT,
-       maxConcurrency: 3,
+       maxConcurrency: 10,
        puppeteerOptions,
-       monitor: true
+       monitor: false
      });
      this.listenErrors();
      this.createTask();

@@ -42,7 +42,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var index_1 = __importDefault(require("../webScrap/index"));
 var puppeteer_cluster_1 = require("puppeteer-cluster");
 var puppeteerOptions = {
-    headless: false,
+    headless: true,
     ignoreHTTPSErrors: true,
     args: [
         '--no-sandbox',
@@ -55,9 +55,9 @@ var StudentController = /** @class */ (function () {
     function StudentController() {
         this.cluster = puppeteer_cluster_1.Cluster.launch({
             concurrency: puppeteer_cluster_1.Cluster.CONCURRENCY_CONTEXT,
-            maxConcurrency: 3,
+            maxConcurrency: 10,
             puppeteerOptions: puppeteerOptions,
-            monitor: true
+            monitor: false
         });
         this.listenErrors();
         this.createTask();

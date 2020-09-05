@@ -13,10 +13,6 @@ class Student {
      this.pageInterceptor();
    }
 
-   public async closePage (): Promise<void> {
-     await this.page.close();
-   }
-
    private async pageInterceptor () {
      // turns request interceptor on
      this.page.setRequestInterception(true);
@@ -55,11 +51,14 @@ class Student {
      return studentClassMaterial.start();
    }
 
-   public async data ():Promise<[userDataI|undefined, classMaterialsI|undefined]> {
-     return Promise.all([
-       this.grades(),
-       this.classMaterial()
-     ]);
+   public async data ():Promise<{classMaterial:classMaterialsI | undefined, grades:userDataI | undefined}> {
+     const grades = await this.grades();
+     const classMaterial = await this.classMaterial();
+
+     return {
+       classMaterial,
+       grades
+     };
    }
 }
 

@@ -58,7 +58,7 @@ var StudentData = /** @class */ (function () {
                     case 3: return [2 /*return*/, _a.sent()];
                     case 4:
                         error_1 = _a.sent();
-                        console.error('ScrapData error: ' + error_1);
+                        console.error('ERROR IN GRADES PAGE' + error_1);
                         return [3 /*break*/, 5];
                     case 5: return [2 /*return*/];
                 }

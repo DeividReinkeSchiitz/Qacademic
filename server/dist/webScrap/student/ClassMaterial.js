@@ -54,7 +54,7 @@ var ClassMaterial = /** @class */ (function () {
                     case 2: return [2 /*return*/, _a.sent()];
                     case 3:
                         error_1 = _a.sent();
-                        console.error("ERROR IN CLASS MATERIAL PAGE,: " + error_1);
+                        console.error("ERROR IN CLASS MATERIAL PAGE " + error_1);
                         return [3 /*break*/, 4];
                     case 4: return [2 /*return*/];
                 }

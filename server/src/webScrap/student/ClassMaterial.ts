@@ -12,7 +12,7 @@ class ClassMaterial {
       await this.openClassMaterialBrowser();
       return await this.getUserData();
     } catch (error) {
-      console.error(`ERROR IN CLASS MATERIAL PAGE,: ${error}`);
+      console.error(`ERROR IN CLASS MATERIAL PAGE ${error}`);
     }
   }
 
