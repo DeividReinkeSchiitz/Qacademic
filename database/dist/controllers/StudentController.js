@@ -85,16 +85,17 @@ var StudentController = /** @class */ (function () {
                     case 1: return [4 /*yield*/, (_a.sent()).task(function (_a) {
                             var page = _a.page, _b = _a.data, password = _b.password, login = _b.login;
                             return __awaiter(_this, void 0, void 0, function () {
-                                var student;
+                                var student, userLogged;
                                 return __generator(this, function (_c) {
                                     switch (_c.label) {
                                         case 0:
                                             student = new index_1.default(page);
                                             return [4 /*yield*/, student.login(login, password)];
                                         case 1:
-                                            _c.sent();
-                                            return [4 /*yield*/, student.data()];
-                                        case 2: return [2 /*return*/, _c.sent()];
+                                            userLogged = _c.sent();
+                                            if (!userLogged)
+                                                return [2 /*return*/, false];
+                                            return [2 /*return*/, student.data()];
                                     }
                                 });
                             });
