@@ -120,7 +120,6 @@ class ClassMaterial {
       this.page.click(buttonElement),
       this.page.click(buttonElement)
     ]);
-
     await this.page.waitForNavigation();
   }
 
