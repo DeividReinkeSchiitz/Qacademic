@@ -45,7 +45,6 @@ class ClassMaterial {
         return Array.from(columns, column => column?.innerText);
       });
     });
-
     return data;
   }
 
@@ -65,7 +64,7 @@ class ClassMaterial {
 
       classMaterials[`${yearTreated}`] = {};
 
-      yearTreated = yearTreated?.replace('/', '_');
+      yearTreated = yearTreated?.replace('/', '_') as string;
 
       if (index !== 0) {
         await this.navigate(yearTreated);
@@ -107,7 +106,7 @@ class ClassMaterial {
     return classMaterials;
   }
 
-  private async navigate (year:string | undefined) {
+  private async navigate (year:string) {
     const selectElement = 'select[name="ANO_PERIODO"]';
     const buttonElement = 'body > table > tbody > tr:nth-child(2) > td > table > tbody > tr:nth-child(2) > td:nth-child(2) > div:nth-child(3) > form > input';
 
