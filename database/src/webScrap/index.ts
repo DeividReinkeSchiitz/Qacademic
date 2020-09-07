@@ -3,6 +3,8 @@ import { Page } from 'puppeteer';
 import StudentLoggin from './student/Loggin';
 import StudentGrades from './student/Grades';
 import StudentClassMaterial from './student/ClassMaterial';
+import StudentHome from './student/Home';
+
 import { classMaterialsI, userDataI } from '../common/types';
 
 class Student {
@@ -45,17 +47,31 @@ class Student {
      return studentGrades.start();
    }
 
+   private async home () {
+     const studentHome = new StudentHome(this.page);
+
+     await studentHome.start();
+
+     async function name () {
+       return await studentHome.getName();
+     }
+
+     return { name };
+   }
+
    private async classMaterial () {
      const studentClassMaterial = new StudentClassMaterial(this.page);
 
      return studentClassMaterial.start();
    }
 
-   public async data ():Promise<{classMaterial:classMaterialsI | undefined, grades:userDataI | undefined}> {
+   public async data ():Promise<{classMaterial:classMaterialsI | undefined, grades:userDataI | undefined, name:string | undefined}> {
      const grades = await this.grades();
      const classMaterial = await this.classMaterial();
+     const name = await (await this.home()).name();
 
      return {
+       name,
        classMaterial,
        grades
      };
