@@ -42,6 +42,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var Loggin_1 = __importDefault(require("./student/Loggin"));
 var Grades_1 = __importDefault(require("./student/Grades"));
 var ClassMaterial_1 = __importDefault(require("./student/ClassMaterial"));
+var Home_1 = __importDefault(require("./student/Home"));
 var Student = /** @class */ (function () {
     function Student(page) {
         this.page = page;
@@ -84,6 +85,31 @@ var Student = /** @class */ (function () {
             });
         });
     };
+    Student.prototype.home = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            function name() {
+                return __awaiter(this, void 0, void 0, function () {
+                    return __generator(this, function (_a) {
+                        switch (_a.label) {
+                            case 0: return [4 /*yield*/, studentHome.getName()];
+                            case 1: return [2 /*return*/, _a.sent()];
+                        }
+                    });
+                });
+            }
+            var studentHome;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        studentHome = new Home_1.default(this.page);
+                        return [4 /*yield*/, studentHome.start()];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/, { name: name }];
+                }
+            });
+        });
+    };
     Student.prototype.classMaterial = function () {
         return __awaiter(this, void 0, void 0, function () {
             var studentClassMaterial;
@@ -95,7 +121,7 @@ var Student = /** @class */ (function () {
     };
     Student.prototype.data = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var grades, classMaterial;
+            var grades, classMaterial, name;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this.grades()];
@@ -104,7 +130,12 @@ var Student = /** @class */ (function () {
                         return [4 /*yield*/, this.classMaterial()];
                     case 2:
                         classMaterial = _a.sent();
+                        return [4 /*yield*/, this.home()];
+                    case 3: return [4 /*yield*/, (_a.sent()).name()];
+                    case 4:
+                        name = _a.sent();
                         return [2 /*return*/, {
+                                name: name,
                                 classMaterial: classMaterial,
                                 grades: grades
                             }];

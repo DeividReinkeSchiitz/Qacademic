@@ -1,17 +1,4 @@
 "use strict";
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -48,44 +35,53 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-var StudentCluster_1 = __importDefault(require("../common/StudentCluster"));
-var StudentController = /** @class */ (function (_super) {
-    __extends(StudentController, _super);
-    function StudentController() {
-        return _super !== null && _super.apply(this, arguments) || this;
+var StudentLoggin = /** @class */ (function () {
+    function StudentLoggin(page) {
+        this.page = page;
     }
-    StudentController.prototype.getData = function (req, res) {
+    StudentLoggin.prototype.openingHomeBrowser = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var _a, password, login, data, error_1;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0:
-                        _b.trys.push([0, 3, 4, 7]);
-                        _a = req.body, password = _a.password, login = _a.login;
-                        return [4 /*yield*/, this.cluster];
-                    case 1: return [4 /*yield*/, (_b.sent()).execute({ password: password, login: login })];
-                    case 2:
-                        data = _b.sent();
-                        return [2 /*return*/, res.json(data)];
-                    case 3:
-                        error_1 = _b.sent();
-                        console.error(error_1);
-                        return [3 /*break*/, 7];
-                    case 4: return [4 /*yield*/, this.cluster];
-                    case 5: return [4 /*yield*/, (_b.sent()).idle()];
-                    case 6:
-                        _b.sent();
-                        return [7 /*endfinally*/];
-                    case 7: return [2 /*return*/];
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.page.goto('https://academico.ifmt.edu.br/qacademico/index.asp?t=2000')];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
                 }
             });
         });
     };
-    return StudentController;
-}(StudentCluster_1.default));
-var studentControllers = new StudentController();
-exports.default = studentControllers;
+    StudentLoggin.prototype.start = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.openingHomeBrowser()];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    StudentLoggin.prototype.getName = function () {
+        var _a;
+        return __awaiter(this, void 0, void 0, function () {
+            var name;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0: return [4 /*yield*/, this.page.evaluate(function () {
+                            var _a;
+                            var name = document.querySelector('body > table > tbody > tr:nth-child(3) > td > table > tbody > tr:nth-child(1) > td:nth-child(3)');
+                            return (_a = name) === null || _a === void 0 ? void 0 : _a.textContent;
+                        })];
+                    case 1:
+                        name = _b.sent();
+                        return [2 /*return*/, (_a = name) === null || _a === void 0 ? void 0 : _a.trim()];
+                }
+            });
+        });
+    };
+    return StudentLoggin;
+}());
+exports.default = StudentLoggin;
