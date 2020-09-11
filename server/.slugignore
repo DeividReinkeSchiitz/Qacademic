@@ -1,7 +1,9 @@
-yarn.lock
 src/
 example/
 dist/schemas/
+dist/tests
+
+yarn.lock
 .eslintrc.js
 yarn-error.log
 tslint.json
