@@ -2,7 +2,7 @@ import Student from '../webScrap/index';
 import { Cluster } from 'puppeteer-cluster';
 
 const puppeteerOptions = {
-  headless: true,
+  headless: false,
   ignoreHTTPSErrors: true,
   args: [
     '--no-sandbox',
