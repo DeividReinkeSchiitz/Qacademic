@@ -17,7 +17,7 @@ App to view Qacademic users data from http://academico.ifmt.edu.br/ by web scrap
 ### Local Machine:
  ```  
   git clone git@github.com:DeividReinkeSchiitz/Qacademic.git;
-  cd database;
+  cd server;
   yarn;
   yarn dev;
  ```
