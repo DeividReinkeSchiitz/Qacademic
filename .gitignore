@@ -3,7 +3,7 @@
 **/yarn.lock
 **/yarn-error.log
 
-
+mobile/node_modules
 mobile/.expo/*
 mobile/*.jks
 mobile/*.p8
