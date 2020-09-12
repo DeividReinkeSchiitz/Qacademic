@@ -1,8 +1,7 @@
-src
 example
 dist/schemas
 dist/tests
-src
+src/
 
 ./tslint.json
 ./tsconfig.json
