@@ -1,13 +1,16 @@
-src/
-example/
-dist/schemas/
+src
+example
+dist/schemas
 dist/tests
+src
+
+./tslint.json
+./tsconfig.json
+
+.eslintrc.js
 
 yarn.lock
-.eslintrc.js
 yarn-error.log
-tslint.json
-tsconfig.json
 .env
 node_modules
 ui-debug.log
