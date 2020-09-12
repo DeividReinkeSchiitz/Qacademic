@@ -42,7 +42,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var index_1 = __importDefault(require("../webScrap/index"));
 var puppeteer_cluster_1 = require("puppeteer-cluster");
 var puppeteerOptions = {
-    headless: false,
+    headless: true,
     ignoreHTTPSErrors: true,
     args: [
         '--no-sandbox',
