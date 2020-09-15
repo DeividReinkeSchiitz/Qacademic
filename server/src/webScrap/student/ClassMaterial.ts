@@ -32,11 +32,7 @@ class ClassMaterial {
       if (year === '') return '';
 
       // remove unnecessary white spaces
-      let yearTreated = year?.replace(/ /ig, '');
-
-      // remove period
-      const slashIndex = year?.indexOf('/');
-      yearTreated = yearTreated?.slice(0, Number(slashIndex) - 1);
+      const yearTreated = year?.replace(/ /ig, '');
 
       return yearTreated as string;
     }));
@@ -78,10 +74,10 @@ class ClassMaterial {
       // get especific year
       const year = years[index];
 
-      classMaterials[`${year}`] = {};
-
-      // the user already is in the first year page option
+      // condition is because the user already is in the first year page option
       if (index !== 0) await this.navigate(year);
+
+      classMaterials[`${year}`] = {};
 
       const tableData = await this.createTwoDimensionalArrayFromTableElement(tableElement);
 
@@ -112,9 +108,7 @@ class ClassMaterial {
             return a?.href;
           }, indexRow);
 
-          const newYear = year?.replace('_', '/');
-
-          classMaterials[`${newYear}`][`${classNameTreated}`].push({
+          classMaterials[`${year}`][`${classNameTreated}`].push({
             publicationData,
             material: material || '',
             obs
@@ -133,12 +127,14 @@ class ClassMaterial {
     await this.page.waitForSelector(selectElement);
     await this.page.waitForSelector(buttonElement);
 
-    await this.page.select(selectElement, year || '');
+    const yearTreated = year.replace('/', '_');
+    await this.page.select(selectElement, yearTreated);
 
-    Promise.all([
-      this.page.click(buttonElement),
-      this.page.click(buttonElement)
-    ]);
+    await this.page.evaluate((buttonElement) => {
+      const button = document.querySelector(buttonElement) as HTMLButtonElement;
+      button.click();
+    }, buttonElement);
+
     await this.page.waitForNavigation();
   }
 

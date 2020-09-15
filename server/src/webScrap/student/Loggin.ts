@@ -34,8 +34,11 @@ class StudentLoggin {
     await this.page.keyboard.type(this.login);
     await this.page.click(passwordSelector);
     await this.page.keyboard.type(this.password);
-    await this.page.click(okSelector);
-    await this.page.click(okSelector);
+
+    await this.page.evaluate((okSelector) => {
+      const button = document.querySelector(okSelector) as HTMLButtonElement;
+      button.click();
+    }, okSelector);
 
     await this.page.waitForNavigation({ waitUntil: 'load' });
   }

@@ -85,15 +85,12 @@ var ClassMaterial = /** @class */ (function () {
                     case 1:
                         _a.sent();
                         return [4 /*yield*/, this.page.$$eval(YearsOptionsElement, function (options) { return options.map(function (option) {
-                                var _a, _b, _c;
+                                var _a;
                                 var year = option.textContent;
                                 if (year === '')
                                     return '';
                                 // remove unnecessary white spaces
                                 var yearTreated = (_a = year) === null || _a === void 0 ? void 0 : _a.replace(/ /ig, '');
-                                // remove period
-                                var slashIndex = (_b = year) === null || _b === void 0 ? void 0 : _b.indexOf('/');
-                                yearTreated = (_c = yearTreated) === null || _c === void 0 ? void 0 : _c.slice(0, Number(slashIndex) - 1);
                                 return yearTreated;
                             }); })];
                     case 2:
@@ -132,35 +129,35 @@ var ClassMaterial = /** @class */ (function () {
         });
     };
     ClassMaterial.prototype.getUserData = function () {
-        var _a;
         return __awaiter(this, void 0, void 0, function () {
-            var YearsOptionsElement, tableElement, classMaterials, years, index, year, tableData, classNameTreated, indexRow, row, className, publicationData, obs, startObsIndex, material, newYear;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
+            var YearsOptionsElement, tableElement, classMaterials, years, index, year, tableData, classNameTreated, indexRow, row, className, publicationData, obs, startObsIndex, material;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
                     case 0:
                         YearsOptionsElement = '#ANO_PERIODO > option';
                         tableElement = 'body > table > tbody > tr:nth-child(2) > td > table > tbody > tr:nth-child(2) > td:nth-child(2) > table:nth-child(4) > tbody > tr';
                         classMaterials = {};
                         return [4 /*yield*/, this.getYearsOptions(YearsOptionsElement)];
                     case 1:
-                        years = _b.sent();
+                        years = _a.sent();
                         index = 0;
-                        _b.label = 2;
+                        _a.label = 2;
                     case 2:
                         if (!(index < years.length)) return [3 /*break*/, 11];
                         year = years[index];
-                        classMaterials["" + year] = {};
                         if (!(index !== 0)) return [3 /*break*/, 4];
                         return [4 /*yield*/, this.navigate(year)];
                     case 3:
-                        _b.sent();
-                        _b.label = 4;
-                    case 4: return [4 /*yield*/, this.createTwoDimensionalArrayFromTableElement(tableElement)];
+                        _a.sent();
+                        _a.label = 4;
+                    case 4:
+                        classMaterials["" + year] = {};
+                        return [4 /*yield*/, this.createTwoDimensionalArrayFromTableElement(tableElement)];
                     case 5:
-                        tableData = _b.sent();
+                        tableData = _a.sent();
                         classNameTreated = '';
                         indexRow = 0;
-                        _b.label = 6;
+                        _a.label = 6;
                     case 6:
                         if (!(indexRow < tableData.length)) return [3 /*break*/, 10];
                         row = tableData[indexRow];
@@ -183,14 +180,13 @@ var ClassMaterial = /** @class */ (function () {
                                 return (_a = a) === null || _a === void 0 ? void 0 : _a.href;
                             }, indexRow)];
                     case 8:
-                        material = _b.sent();
-                        newYear = (_a = year) === null || _a === void 0 ? void 0 : _a.replace('_', '/');
-                        classMaterials["" + newYear]["" + classNameTreated].push({
+                        material = _a.sent();
+                        classMaterials["" + year]["" + classNameTreated].push({
                             publicationData: publicationData,
                             material: material || '',
                             obs: obs
                         });
-                        _b.label = 9;
+                        _a.label = 9;
                     case 9:
                         indexRow++;
                         return [3 /*break*/, 6];
@@ -204,7 +200,7 @@ var ClassMaterial = /** @class */ (function () {
     };
     ClassMaterial.prototype.navigate = function (year) {
         return __awaiter(this, void 0, void 0, function () {
-            var selectElement, buttonElement;
+            var selectElement, buttonElement, yearTreated;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -216,15 +212,18 @@ var ClassMaterial = /** @class */ (function () {
                         return [4 /*yield*/, this.page.waitForSelector(buttonElement)];
                     case 2:
                         _a.sent();
-                        return [4 /*yield*/, this.page.select(selectElement, year || '')];
+                        yearTreated = year.replace('/', '_');
+                        return [4 /*yield*/, this.page.select(selectElement, yearTreated)];
                     case 3:
                         _a.sent();
-                        Promise.all([
-                            this.page.click(buttonElement),
-                            this.page.click(buttonElement)
-                        ]);
-                        return [4 /*yield*/, this.page.waitForNavigation()];
+                        return [4 /*yield*/, this.page.evaluate(function (buttonElement) {
+                                var button = document.querySelector(buttonElement);
+                                button.click();
+                            }, buttonElement)];
                     case 4:
+                        _a.sent();
+                        return [4 /*yield*/, this.page.waitForNavigation()];
+                    case 5:
                         _a.sent();
                         return [2 /*return*/];
                 }

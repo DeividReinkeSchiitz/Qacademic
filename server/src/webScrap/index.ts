@@ -62,7 +62,7 @@ class Student {
      return { name };
    }
 
-   private async classMaterial () {
+   public async classMaterial () {
      const studentClassMaterial = new StudentClassMaterial(this.page);
 
      return studentClassMaterial.start();

@@ -99,14 +99,14 @@ var StudentLoggin = /** @class */ (function () {
                         return [4 /*yield*/, this.page.keyboard.type(this.password)];
                     case 4:
                         _a.sent();
-                        return [4 /*yield*/, this.page.click(okSelector)];
+                        return [4 /*yield*/, this.page.evaluate(function (okSelector) {
+                                var button = document.querySelector(okSelector);
+                                button.click();
+                            }, okSelector)];
                     case 5:
                         _a.sent();
-                        return [4 /*yield*/, this.page.click(okSelector)];
-                    case 6:
-                        _a.sent();
                         return [4 /*yield*/, this.page.waitForNavigation({ waitUntil: 'load' })];
-                    case 7:
+                    case 6:
                         _a.sent();
                         return [2 /*return*/];
                 }

@@ -43,7 +43,7 @@ var puppeteer_1 = __importDefault(require("puppeteer"));
 var index_1 = __importDefault(require("../webScrap/index"));
 // uncommit to test
 (function () { return __awaiter(void 0, void 0, void 0, function () {
-    var puppeteerOptions, browser, page, student;
+    var puppeteerOptions, browser, page, student, data;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -64,10 +64,13 @@ var index_1 = __importDefault(require("../webScrap/index"));
             case 2:
                 page = _a.sent();
                 student = new index_1.default(page);
-                return [4 /*yield*/, student.login('<xxxxx>', '<xxxxx>')];
+                return [4 /*yield*/, student.login('<xxxx>', '<xxxx>')];
             case 3:
                 _a.sent();
-                student.data();
+                return [4 /*yield*/, student.data()];
+            case 4:
+                data = _a.sent();
+                console.log(data);
                 return [2 /*return*/];
         }
     });

@@ -20,8 +20,10 @@ import Student from '../webScrap/index';
     const page = await browser.newPage();
 
     const student = new Student(page);
-    await student.login('<xxxxx>', '<xxxxx>');
+    await student.login('<xxxx>', '<xxxx>');
 
-    student.data();
+    const data = await student.data();
+
+    console.log(data);
   }
 )();
