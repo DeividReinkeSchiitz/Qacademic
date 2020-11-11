@@ -1,6 +1,9 @@
-export default {
-  titleFont: 'Segoe_UI',
-  titleFontBold: 'Segoe_UI_Bold',
-  textFont: 'Segoe_UI',
-  smallTextFont: 'Palatino_Linotype',
+const fonts = {
+  Segoe: 'Segoe_UI',
+  HKNova: 'HKNova',
+  Pala: 'Pala',
+  ProximaNova: 'ProximaNova',
+  Roboto: 'Roboto',
+  Roboto_Thin: 'Roboto_Thin',
 };
+export default fonts;

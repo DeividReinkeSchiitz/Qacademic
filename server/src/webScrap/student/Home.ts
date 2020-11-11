@@ -15,14 +15,18 @@ class StudentLoggin {
     await this.openingHomeBrowser();
   }
 
-  public async getName () {
-    const name = await this.page.evaluate(() => {
-      const name = document.querySelector('body > table > tbody > tr:nth-child(3) > td > table > tbody > tr:nth-child(1) > td:nth-child(3)');
+  public async getName ():Promise<string> {
+    try {
+      const name = await this.page.evaluate(() => {
+        const name = document.querySelector('body > table > tbody > tr:nth-child(3) > td > table > tbody > tr:nth-child(1) > td:nth-child(3)');
 
-      return name?.textContent;
-    });
+        return name?.textContent;
+      }) as string;
 
-    return name?.trim();
+      return name.trim();
+    } catch (error) {
+      throw new Error('ERROR IN HOME PAGE');
+    }
   }
 }
 

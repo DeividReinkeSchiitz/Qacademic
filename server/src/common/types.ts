@@ -16,14 +16,41 @@ export interface classMaterialsI{
 
 // Grades type
 interface twoMonthI {
-   'grade': number,
-   'concept': number,
-   'missedClasses':number
+   grade: number,
+   concept: number,
+   missedClasses:number
 }
 interface classNameGradesI {
  [className:string]:Array<twoMonthI>
 }
 
-export interface userDataI {
+export interface gradesI {
  [year:string]:classNameGradesI
 }
+
+export interface studentI{
+   name:string,
+   grades:gradesI,
+   classMaterial:classMaterialsI
+}
+
+/*
+   Student:{
+      '2020':{
+         'filosofia':[
+            {
+               grade:xx,
+               missedClasses:xx,
+               concept:xx,
+            }
+         ],
+         'geografia':[
+            {
+               grade:xx,
+               missedClasses:xx,
+               concept:xx,
+            }
+         ],
+      }
+   }
+*/

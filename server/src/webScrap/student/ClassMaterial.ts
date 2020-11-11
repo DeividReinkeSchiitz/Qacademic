@@ -8,13 +8,13 @@ class ClassMaterial {
     this.page = page;
   }
 
-  public async start ():Promise<classMaterialsI | undefined> {
+  public async start ():Promise<classMaterialsI> {
     try {
       await this.openClassMaterialBrowser();
 
       return await this.getUserData();
     } catch (error) {
-      console.error(`ERROR IN CLASS MATERIAL PAGE ${error}`);
+      throw new Error(`ERROR IN CLASS MATERIAL PAGE ${error}`);
     }
   }
 

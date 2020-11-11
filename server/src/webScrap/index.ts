@@ -4,7 +4,7 @@ import StudentLoggin from './student/Loggin';
 import StudentGrades from './student/Grades';
 import StudentClassMaterial from './student/ClassMaterial';
 import StudentHome from './student/Home';
-import { classMaterialsI, userDataI } from '../common/types';
+import { studentI, classMaterialsI } from '../common/types';
 
 class Student {
    page: Page;
@@ -62,13 +62,13 @@ class Student {
      return { name };
    }
 
-   public async classMaterial () {
+   public async classMaterial (): Promise<classMaterialsI> {
      const studentClassMaterial = new StudentClassMaterial(this.page);
 
      return studentClassMaterial.start();
    }
 
-   public async data ():Promise<{classMaterial:classMaterialsI | undefined, grades:userDataI | undefined, name:string | undefined}> {
+   public async data ():Promise<studentI> {
      const grades = await this.grades();
      const classMaterial = await this.classMaterial();
      const name = await (await this.home()).name();

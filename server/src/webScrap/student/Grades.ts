@@ -1,5 +1,5 @@
 import { Page } from 'puppeteer';
-import { userDataI } from '../../common/types';
+import { gradesI } from '../../common/types';
 
 class StudentData {
    private page:Page;
@@ -10,13 +10,13 @@ class StudentData {
      this.years = [];
    }
 
-   public async start ():Promise<userDataI |undefined> {
+   public async start ():Promise<gradesI> {
      try {
        await this.openStudentGradesBrowser();
        await this.getYearsOptions();
        return await this.getUserData();
      } catch (error) {
-       console.error('ERROR IN GRADES PAGE' + error);
+       throw new Error(`ERROR IN GRADES PAGE ${error}`);
      }
    }
 
@@ -45,8 +45,8 @@ class StudentData {
      return data;
    }
 
-   private async getUserData ():Promise<userDataI> {
-     const userData:userDataI = {};
+   private async getUserData ():Promise<gradesI> {
+     const userData:gradesI = {};
 
      for (let index = 0; index < this.years.length; index++) {
        const year = this.years[index];
