@@ -5,9 +5,8 @@ App to view Qacademic users data from http://academico.ifmt.edu.br/ by web scrap
 - [ ] Finish Api
    - [x] Get High School Grades 
    - [x] Get class material
-   - [ ] Get class schedule
    - [ ] Get College Grades
-- [ ] Finish Mobile App
+- [x] Finish Mobile App
 
 
 ## API usage
