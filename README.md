@@ -34,5 +34,6 @@ App to view Qacademic users data from http://academico.ifmt.edu.br/ by web scrap
       <img src="https://github.com/DeividReinkeSchiitz/Qacademic/blob/master/image1.jpg" width="350"/>
       <img src="https://github.com/DeividReinkeSchiitz/Qacademic/blob/master/image2.jpg" width="350"/>
  </p>
+ 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
