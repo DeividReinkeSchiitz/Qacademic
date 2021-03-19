@@ -8,9 +8,6 @@ App to view Qacademic users data from http://academico.ifmt.edu.br/ by web scrap
    - [ ] Get class schedule
    - [ ] Get College Grades
 - [ ] Finish Mobile App
-- [ ] Finish Web App
-   - [x] Show High School Grades
-   - [ ] Show class material
 
 
 ## API usage
@@ -32,6 +29,10 @@ App to view Qacademic users data from http://academico.ifmt.edu.br/ by web scrap
     console.log(response.data);
    ```
 ## Mobile App
-
+ See on play store: https://play.google.com/store/apps/details?id=com.deividreinke.AcademicView
+ <p align="center">
+      <img src="https://github.com/DeividReinkeSchiitz/Qacademic/blob/master/image1.jpg" width="350"/>
+      <img src="https://github.com/DeividReinkeSchiitz/Qacademic/blob/master/image2.jpg" width="350"/>
+ </p>
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
